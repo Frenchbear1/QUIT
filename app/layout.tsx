@@ -1,18 +1,20 @@
 import React from "react"
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
+
+const basePath = (process.env.NEXT_PUBLIC_BASE_PATH || "").replace(/\/$/, "");
+const withBase = (path: string) => `${basePath}${path.startsWith("/") ? path : `/${path}`}`;
 
 export const metadata: Metadata = {
   title: 'QUIT',
   description: 'Stop lying to yourself. Quit porn.',
   generator: 'v0.app',
   applicationName: 'QUIT',
-  manifest: '/manifest.webmanifest',
+  manifest: withBase('/manifest.webmanifest'),
   appleWebApp: {
     capable: true,
     title: 'QUIT',
@@ -20,12 +22,12 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
-      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
-      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: withBase('/icon-192.png'), sizes: '192x192', type: 'image/png' },
+      { url: withBase('/icon-512.png'), sizes: '512x512', type: 'image/png' },
+      { url: withBase('/icon.svg'), type: 'image/svg+xml' },
     ],
     apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+      { url: withBase('/apple-touch-icon.png'), sizes: '180x180', type: 'image/png' },
     ],
   },
 }
@@ -65,7 +67,6 @@ export default function RootLayout({
           }}
         />
         {children}
-        <Analytics />
       </body>
     </html>
   )

@@ -8,13 +8,17 @@ export interface MusicTrack {
   description?: string;
 }
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+const withBase = (path: string) => (basePath ? basePath + path : path);
+
+
 export const musicTracks: MusicTrack[] = [
   // Modern Worship - Powerful anthems for spiritual warfare
   {
     id: "m1",
     title: "Graves Into Gardens",
     artist: "Elevation Worship ft. Brandon Lake",
-    url: "https://youtu.be/kTvv-9zosPs?si=pyHW0tt1l-LRBFnB",
+    url: withBase("/audio/Graves Into Gardens.m4a"),
     category: "worship",
     tags: ["transformation", "hope", "powerful"],
     description: "A declaration that God turns our worst into something beautiful."
@@ -23,7 +27,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m2",
     title: "Way Maker",
     artist: "Sinach / Leeland",
-    url: "https://youtu.be/iJCV_2H9xD0?si=sMefEwSQ8djkyyrw&t=7",
+    url: withBase("/audio/Way Maker.m4a"),
     category: "worship",
     tags: ["breakthrough", "faith", "presence"],
     description: "When you feel stuck, remember He makes a way."
@@ -32,7 +36,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m3",
     title: "No Longer Slaves",
     artist: "Bethel Music ft. Jonathan David Helser",
-    url: "https://youtu.be/XxkNj5hcy5E?si=gLwhG4vlWSO3D1C0",
+    url: withBase("/audio/No Longer Slaves.m4a"),
     category: "worship",
     tags: ["freedom", "identity", "powerful"],
     description: "You are not a slave to this. You are a child of God."
@@ -41,7 +45,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m4",
     title: "Reckless Love",
     artist: "Cory Asbury",
-    url: "https://youtu.be/6xx0d3R2LoU?si=pW1HMxDKou5q-geg",
+    url: withBase("/audio/Reckless Love.m4a"),
     category: "worship",
     tags: ["love", "pursuit", "grace"],
     description: "His love chases you down, fights for you, leaves the 99."
@@ -50,7 +54,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m5",
     title: "Do It Again",
     artist: "Elevation Worship",
-    url: "https://youtu.be/ZOBIPb-6PTc?si=m6FKf6jAnLilhRDs",
+    url: withBase("/audio/Do It Again.m4a"),
     category: "worship",
     tags: ["faithfulness", "testimony", "hope"],
     description: "Remember what He's done before. He'll do it again."
@@ -59,7 +63,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m6",
     title: "Battle Belongs",
     artist: "Phil Wickham",
-    url: "https://youtu.be/qtvQNzPHn-w?si=ufhp5YknxkqI7Oal",
+    url: withBase("/audio/Battle Belongs.m4a"),
     category: "victory",
     tags: ["warfare", "victory", "powerful"],
     description: "The battle is not yours. Give it to Him."
@@ -68,7 +72,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m7",
     title: "Surrounded (Fight My Battles)",
     artist: "UPPERROOM",
-    url: "https://youtu.be/vx6mfAgHDsY?si=LBLqANt8Sq5ooKrA",
+    url: withBase("/audio/Surrounded (Fight My Battles).m4a"),
     category: "victory",
     tags: ["warfare", "faith", "declaration"],
     description: "This is how I fight my battles - with worship."
@@ -77,7 +81,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m8",
     title: "King of Kings",
     artist: "Hillsong Worship",
-    url: "https://youtu.be/dQl4izxPeNU?si=xRM4Kbk3waFMNzZY",
+    url: withBase("/audio/King of Kings.m4a"),
     category: "worship",
     tags: ["majesty", "victory", "powerful"],
     description: "Remember who your King is and what He overcame."
@@ -86,7 +90,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m9",
     title: "O Come to the Altar",
     artist: "Elevation Worship",
-    url: "https://youtu.be/rYQ5yXCc_CA?si=m8O5wKqvkeJPnKOB",
+    url: withBase("/audio/O Come to the Altar.m4a"),
     category: "worship",
     tags: ["surrender", "grace", "healing"],
     description: "Leave your burdens at the cross. Come as you are."
@@ -95,7 +99,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m10",
     title: "Goodness of God",
     artist: "Bethel Music ft. Jenn Johnson",
-    url: "https://youtu.be/tlP5fO6y4Kw?si=vg2DKw99QipTbZ-i",
+    url: withBase("/audio/Goodness of God.m4a"),
     category: "worship",
     tags: ["faithfulness", "testimony", "gentle"],
     description: "All your life, His goodness has followed you."
@@ -106,7 +110,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m11",
     title: "Who You Say I Am",
     artist: "Hillsong Worship",
-    url: "https://youtu.be/IcC1Bp13n_4?si=wwfmgZuF_v1i7KfQ",
+    url: withBase("/audio/Who You Say I Am.m4a"),
     category: "modern-christian",
     tags: ["identity", "freedom", "declaration"],
     description: "Your identity is not your sin. You are who He says you are."
@@ -115,7 +119,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m12",
     title: "Tremble",
     artist: "Mosaic MSC",
-    url: "https://youtu.be/dL_d2mbNZNA?si=cCBhP6_S5GRielCl",
+    url: withBase("/audio/Tremble.m4a"),
     category: "modern-christian",
     tags: ["power", "authority", "warfare"],
     description: "Addictions tremble at the name of Jesus."
@@ -124,7 +128,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m13",
     title: "Rescue",
     artist: "Lauren Daigle",
-    url: "https://youtu.be/sIaT8Jl2zpI?si=4A18HMu3gbyUUuEM",
+    url: withBase("/audio/Rescue.m4a"),
     category: "modern-christian",
     tags: ["love", "rescue", "hope"],
     description: "He will rescue you. You are not alone."
@@ -133,7 +137,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m14",
     title: "Build My Life",
     artist: "Passion ft. Brett Younker",
-    url: "https://youtu.be/_sI8ADmkC1k?si=F1pQo97W7EM6RpwG",
+    url: withBase("/audio/Build My Life.m4a"),
     category: "modern-christian",
     tags: ["surrender", "worship", "foundation"],
     description: "Build your life on something that won't crumble."
@@ -142,7 +146,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m15",
     title: "Living Hope",
     artist: "Phil Wickham",
-    url: "https://youtu.be/u-1fwZtKJSM?si=w28HqbNXSOS2oAzz",
+    url: withBase("/audio/Living Hope.m4a"),
     category: "modern-christian",
     tags: ["hope", "resurrection", "powerful"],
     description: "Death couldn't hold Him. Neither can your chains."
@@ -151,7 +155,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m16",
     title: "What A Beautiful Name",
     artist: "Hillsong Worship",
-    url: "https://youtu.be/nQWFzMvCfLE?si=tzFCYBf9QQZe_yE7",
+    url: withBase("/audio/What A Beautiful Name.m4a"),
     category: "modern-christian",
     tags: ["power", "name", "worship"],
     description: "There is power in the name of Jesus to break every chain."
@@ -160,7 +164,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m17",
     title: "Promises",
     artist: "Maverick City Music",
-    url: "https://youtu.be/q5m09rqOoxE?si=kdF3rgyQp8NRa47r",
+    url: withBase("/audio/Promises.m4a"),
     category: "modern-christian",
     tags: ["faithfulness", "promises", "hope"],
     description: "God keeps His promises. Even when you break yours."
@@ -169,7 +173,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m18",
     title: "Jireh",
     artist: "Maverick City Music ft. Elevation Worship",
-    url: "https://youtu.be/mC-zw0zCCtg?si=w-XJzhmLvWE7tqZS",
+    url: withBase("/audio/Jireh.m4a"),
     category: "modern-christian",
     tags: ["provision", "peace", "presence"],
     description: "He is more than enough. More than what you're looking for."
@@ -178,7 +182,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m19",
     title: "Graves",
     artist: "Leeland",
-    url: "https://youtu.be/KwX1f2gYKZ4?si=nkuvCpKt4UJl267B",
+    url: withBase("/audio/Graves.m4a"),
     category: "victory",
     tags: ["resurrection", "victory", "power"],
     description: "He walked out of the grave. You can walk out of this."
@@ -187,7 +191,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m20",
     title: "The Blessing",
     artist: "Kari Jobe & Cody Carnes",
-    url: "https://youtu.be/uZ55mDL7dA0?si=bAUkTKCROlTX_l6l",
+    url: withBase("/audio/The Blessing.m4a"),
     category: "modern-christian",
     tags: ["blessing", "favor", "declaration"],
     description: "His blessing is on you. Let that sink in."
@@ -198,7 +202,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m21",
     title: "Amazing Grace (My Chains Are Gone)",
     artist: "Chris Tomlin",
-    url: "https://youtu.be/Y-4NFvI5U9w?si=iiwndsyzakhOttW4",
+    url: withBase("/audio/Amazing Grace (My Chains Are Gone).m4a"),
     category: "hymns",
     tags: ["grace", "freedom", "classic"],
     description: "The chains are gone. You have been set free."
@@ -207,7 +211,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m22",
     title: "It Is Well With My Soul",
     artist: "Bethel Music",
-    url: "https://youtu.be/YNqo4Un2uZI?si=2nahN8XLLn8-FKGB",
+    url: withBase("/audio/It Is Well With My Soul.m4a"),
     category: "hymns",
     tags: ["peace", "surrender", "classic"],
     description: "Whatever your circumstance, it is well with your soul."
@@ -216,7 +220,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m23",
     title: "How Great Thou Art",
     artist: "Carrie Underwood",
-    url: "https://youtu.be/9bnSX5W57yg?si=hqF8GpFdhU_BvlxN",
+    url: withBase("/audio/How Great Thou Art.m4a"),
     category: "hymns",
     tags: ["majesty", "awe", "classic"],
     description: "Remember how great He is. Bigger than your struggle."
@@ -225,7 +229,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m24",
     title: "Great Is Thy Faithfulness",
     artist: "Carrie Underwood ft. CeCe Winans",
-    url: "https://youtu.be/NT0HcAr9aeI?si=XGSfwuYWdVJ2utoj",
+    url: withBase("/audio/Great Is Thy Faithfulness.m4a"),
     category: "hymns",
     tags: ["faithfulness", "morning", "classic"],
     description: "New every morning. His mercies never end."
@@ -234,7 +238,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m25",
     title: "Be Thou My Vision",
     artist: "Audrey Assad",
-    url: "https://youtu.be/9q90SUDg9dg?si=ZljP7UrPZ4binDdO",
+    url: withBase("/audio/Be Thou My Vision.m4a"),
     category: "hymns",
     tags: ["focus", "vision", "classic"],
     description: "Make Him your vision. Everything else fades."
@@ -243,7 +247,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m26",
     title: "Come Thou Fount",
     artist: "David Crowder Band",
-    url: "https://youtu.be/qDbllO1LrvM?si=4KBtaOZQK8ikRBq9",
+    url: withBase("/audio/Come Thou Fount.m4a"),
     category: "hymns",
     tags: ["grace", "wandering", "classic"],
     description: "Prone to wander, Lord I feel it. Bind my heart to Thee."
@@ -252,7 +256,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m27",
     title: "Holy, Holy, Holy",
     artist: "Audrey Assad",
-    url: "https://youtu.be/AgHrNNM23p8?si=BJcb9Q1YsNJ7Qam_",
+    url: withBase("/audio/Holy, Holy, Holy.m4a"),
     category: "hymns",
     tags: ["holiness", "reverence", "classic"],
     description: "He is holy. And He calls you to be holy too."
@@ -261,7 +265,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m28",
     title: "What A Friend We Have In Jesus",
     artist: "Lydia Walker",
-    url: "https://youtu.be/TAyaXdvvbGU?si=7iPjku1G49NxMkp0",
+    url: withBase("/audio/What A Friend We Have In Jesus.m4a"),
     category: "hymns",
     tags: ["friendship", "prayer", "classic"],
     description: "Take everything to God in prayer. He understands."
@@ -272,7 +276,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m29",
     title: "Piano Worship - Peaceful Prayer",
     artist: "Hillsong Instrumental",
-    url: "https://youtu.be/Q04XE2-XhyA?si=ocuMwVTL91zX5E0K",
+    url: withBase("/audio/Piano Worship - Peaceful Prayer.m4a"),
     category: "instrumental",
     tags: ["peace", "prayer", "calm"],
     description: "No words needed. Just be still."
@@ -281,7 +285,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m30",
     title: "Soaking Worship",
     artist: "Bethel Music Instrumental",
-    url: "https://youtu.be/i1CMA0_n6oA?si=y8GP5DgDBk7jGCDf",
+    url: withBase("/audio/Soaking Worship.m4a"),
     category: "instrumental",
     tags: ["soaking", "presence", "long"],
     description: "Soak in His presence. Let the noise quiet down."
@@ -290,7 +294,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m36",
     title: "Beautiful Piano Worship",
     artist: "Instrumental Worship",
-    url: "https://youtu.be/WQcbbKC5Tyw?si=NzX3XQYobKh9mF8A&t=3",
+    url: withBase("/audio/Beautiful Piano Worship.m4a"),
     category: "instrumental",
     tags: ["peace", "prayer", "autoplay"],
     description: "Let this peaceful worship fill your mind as you open the app."
@@ -301,7 +305,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m31",
     title: "Raise A Hallelujah",
     artist: "Bethel Music",
-    url: "https://youtu.be/G2XtRuPfaAU?si=1dhF1NMZEiY-07HU",
+    url: withBase("/audio/Raise A Hallelujah.m4a"),
     category: "victory",
     tags: ["warfare", "praise", "powerful"],
     description: "Raise a hallelujah in the presence of your enemies."
@@ -310,7 +314,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m32",
     title: "See A Victory",
     artist: "Elevation Worship",
-    url: "https://youtu.be/YNd-PbVhnvA?si=X6fINMnhx47Lf0rT",
+    url: withBase("/audio/See A Victory.m4a"),
     category: "victory",
     tags: ["faith", "victory", "declaration"],
     description: "The battle's already won. See a victory before it comes."
@@ -319,7 +323,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m33",
     title: "Lion",
     artist: "Elevation Worship ft. Chris Brown & Brandon Lake",
-    url: "https://youtu.be/apZEYgTpZxM?si=m83ngS1pmVDCw-mv",
+    url: withBase("/audio/Lion.m4a"),
     category: "victory",
     tags: ["power", "warfare", "bold"],
     description: "The Lion of Judah has already won."
@@ -328,7 +332,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m34",
     title: "Resurrecting",
     artist: "Elevation Worship",
-    url: "https://youtu.be/KOHk2N9Ge_4?si=Ueci3b4ioUsrsy6Q",
+    url: withBase("/audio/Resurrecting.m4a"),
     category: "victory",
     tags: ["resurrection", "power", "worship"],
     description: "Death could not hold Him. Your sin cannot define you."
@@ -337,7 +341,7 @@ export const musicTracks: MusicTrack[] = [
     id: "m35",
     title: "Champion",
     artist: "Bethel Music ft. Dante Bowe",
-    url: "https://youtu.be/Y8vVrKD932E?si=Q-vpNva_4Ec8X4UZ",
+    url: withBase("/audio/Champion.m4a"),
     category: "victory",
     tags: ["victory", "identity", "powerful"],
     description: "When He satisfies, nothing else is needed."
