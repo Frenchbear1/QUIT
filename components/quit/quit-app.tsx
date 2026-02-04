@@ -6,7 +6,7 @@ import { HomeScreen } from "./home-screen";
 import { TabsView } from "./tabs-view";
 import { GlobalMusicPlayer } from "./global-music-player";
 import { useQuitStorage } from "@/hooks/use-quit-storage";
-import type { MusicTrack } from "@/lib/data/music";
+import { autoplayTrack, type MusicTrack } from "@/lib/data/music";
 
 type View = "home" | "tabs";
 
@@ -31,6 +31,15 @@ export function QuitApp() {
 
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  // Preload the default track to reduce first-play delay
+  useEffect(() => {
+    if (!autoplayTrack?.url) return;
+    const preloadAudio = new Audio();
+    preloadAudio.preload = "auto";
+    preloadAudio.src = autoplayTrack.url;
+    preloadAudio.load();
   }, []);
 
   const handlePlayTrack = useCallback((track: MusicTrack) => {

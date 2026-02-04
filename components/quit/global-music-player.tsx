@@ -88,7 +88,7 @@ export function GlobalMusicPlayer({
                 src={track.url}
                 controls
                 className={`mt-6 w-full ${showFullscreen ? "" : "w-1 h-1"}`}
-                preload="metadata"
+                preload="auto"
               />
             </div>
           </div>
