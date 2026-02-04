@@ -2,7 +2,7 @@
 
 import { useEffect, useState, type CSSProperties } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Music, ChevronDown, ChevronUp, ExternalLink, Link, ChevronRight } from "lucide-react";
+import { Play, Music, ChevronDown, ChevronUp, Link, ChevronRight } from "lucide-react";
 import { musicTracks, musicCategories, type MusicTrack } from "@/lib/data/music";
 
 interface MusicTabProps {
@@ -230,15 +230,15 @@ export function MusicTab({ onPlayTrack, currentPlayingTrack }: MusicTabProps) {
                         {track.title}
                       </h3>
 
-                      {track.url && (
+                      {track.url && track.url.startsWith("/audio/") && (
                         <a
                           href={track.url}
                           target="_blank"
                           rel="noreferrer"
-                          title="Open in YouTube"
-                          className="shrink-0 inline-flex items-center justify-center h-5 w-5 rounded-full bg-secondary/70 hover:bg-secondary text-muted-foreground hover:text-foreground transition"
+                          title="Open audio file"
+                          className="shrink-0 inline-flex items-center justify-center h-5 px-2 rounded-full bg-secondary/70 hover:bg-secondary text-muted-foreground hover:text-foreground transition text-xs"
                         >
-                          <ExternalLink className="w-3.5 h-3.5" />
+                          Open
                         </a>
                       )}
                     </div>
