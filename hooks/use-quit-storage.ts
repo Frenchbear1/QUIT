@@ -15,25 +15,38 @@ export interface TriggerEntry {
 }
 
 export interface QuitData {
+  firstOpenedDate: number | null;
   streakStartDate: number | null;
   lastRelapseDate: number | null;
   relapseHistory: RelapseEntry[];
   triggerHistory: TriggerEntry[];
   playLaterVideos: string[];
+  dayStatuses: Record<string, "good" | "slip">;
 }
 
-const DEFAULT_DATA: QuitData = {
+const createDefaultData = (): QuitData => ({
+  firstOpenedDate: Date.now(),
   streakStartDate: Date.now(),
   lastRelapseDate: null,
   relapseHistory: [],
   triggerHistory: [],
   playLaterVideos: [],
-};
+  dayStatuses: {},
+});
 
 const STORAGE_KEY = "quit-app-data";
 
+const toDateKey = (date: Date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
+const startOfDay = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
 export function useQuitStorage() {
-  const [data, setData] = useState<QuitData>(DEFAULT_DATA);
+  const [data, setData] = useState<QuitData>(createDefaultData);
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Load data from localStorage on mount
@@ -43,10 +56,23 @@ export function useQuitStorage() {
       if (stored) {
         try {
           const parsed = JSON.parse(stored);
-          setData({ ...DEFAULT_DATA, ...parsed });
+          const fallbackFirstOpened =
+            typeof parsed.firstOpenedDate === "number"
+              ? parsed.firstOpenedDate
+              : typeof parsed.streakStartDate === "number"
+                ? parsed.streakStartDate
+                : Date.now();
+          setData({
+            ...createDefaultData(),
+            ...parsed,
+            firstOpenedDate: fallbackFirstOpened,
+            dayStatuses: parsed.dayStatuses ?? {},
+          });
         } catch {
-          setData(DEFAULT_DATA);
+          setData(createDefaultData());
         }
+      } else {
+        setData(createDefaultData());
       }
       setIsLoaded(true);
     }
@@ -61,16 +87,22 @@ export function useQuitStorage() {
 
   // Log relapse
   const logRelapse = useCallback((lie?: string, change?: string) => {
+    const now = Date.now();
+    const todayKey = toDateKey(new Date(now));
     const entry: RelapseEntry = {
-      timestamp: Date.now(),
+      timestamp: now,
       lie,
       change,
     };
     setData((prev) => ({
       ...prev,
-      lastRelapseDate: Date.now(),
-      streakStartDate: Date.now(),
+      lastRelapseDate: now,
+      streakStartDate: now,
       relapseHistory: [...prev.relapseHistory, entry],
+      dayStatuses: {
+        ...prev.dayStatuses,
+        [todayKey]: "slip",
+      },
     }));
   }, []);
 
@@ -100,19 +132,68 @@ export function useQuitStorage() {
     });
   }, []);
 
+  const deleteRelapseEntry = useCallback((timestamp: number) => {
+    setData((prev) => ({
+      ...prev,
+      relapseHistory: prev.relapseHistory.filter((entry) => entry.timestamp !== timestamp),
+    }));
+  }, []);
+
+  const deleteTriggerEntry = useCallback((timestamp: number) => {
+    setData((prev) => ({
+      ...prev,
+      triggerHistory: prev.triggerHistory.filter((entry) => entry.timestamp !== timestamp),
+    }));
+  }, []);
+
+  const setDayStatus = useCallback((date: Date, status: "good" | "slip") => {
+    const key = toDateKey(date);
+    setData((prev) => ({
+      ...prev,
+      dayStatuses: {
+        ...prev.dayStatuses,
+        [key]: status,
+      },
+    }));
+  }, []);
+
   // Calculate streak days
   const getStreakDays = useCallback(() => {
-    if (!data.streakStartDate) return 0;
-    const now = Date.now();
-    const diffMs = now - data.streakStartDate;
-    return Math.floor(diffMs / (1000 * 60 * 60 * 24));
-  }, [data.streakStartDate]);
+    if (!data.firstOpenedDate) return 0;
+    const firstOpened = startOfDay(new Date(data.firstOpenedDate));
+    const today = startOfDay(new Date());
+    if (today < firstOpened) return 0;
+
+    let streak = 0;
+    for (let d = new Date(today); d >= firstOpened; d.setDate(d.getDate() - 1)) {
+      const key = toDateKey(d);
+      const status = data.dayStatuses[key] ?? "good";
+      if (status === "slip") break;
+      streak += 1;
+    }
+    return streak;
+  }, [data.firstOpenedDate, data.dayStatuses]);
 
   // Calculate time since last relapse
   const getTimeSinceRelapse = useCallback(() => {
-    if (!data.lastRelapseDate) return null;
+    let mostRecentSlip: Date | null = null;
+    const entries = Object.entries(data.dayStatuses);
+    for (const [key, status] of entries) {
+      if (status !== "slip") continue;
+      const [year, month, day] = key.split("-").map(Number);
+      const date = new Date(year, month - 1, day);
+      if (!mostRecentSlip || date > mostRecentSlip) {
+        mostRecentSlip = date;
+      }
+    }
+
+    if (!mostRecentSlip && data.lastRelapseDate) {
+      mostRecentSlip = new Date(data.lastRelapseDate);
+    }
+
+    if (!mostRecentSlip) return null;
     const now = Date.now();
-    const diffMs = now - data.lastRelapseDate;
+    const diffMs = now - mostRecentSlip.getTime();
     const hours = Math.floor(diffMs / (1000 * 60 * 60));
     const days = Math.floor(hours / 24);
     
@@ -120,7 +201,7 @@ export function useQuitStorage() {
       return `${days} day${days === 1 ? '' : 's'}`;
     }
     return `${hours} hour${hours === 1 ? '' : 's'}`;
-  }, [data.lastRelapseDate]);
+  }, [data.dayStatuses, data.lastRelapseDate]);
 
   return {
     data,
@@ -128,6 +209,9 @@ export function useQuitStorage() {
     logRelapse,
     logTrigger,
     togglePlayLater,
+    deleteRelapseEntry,
+    deleteTriggerEntry,
+    setDayStatus,
     getStreakDays,
     getTimeSinceRelapse,
   };

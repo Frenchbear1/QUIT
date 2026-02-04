@@ -7,12 +7,25 @@ import { Button } from "@/components/ui/button";
 import { getRandomSaying } from "@/lib/data/sayings";
 import { RelapseModal } from "./relapse-modal";
 import { EmergencyVerse } from "./emergency-verse";
+import { StreakCalendarDialog } from "./streak-calendar-dialog";
+import { ReflectionsDialog } from "./reflections-dialog";
 
 interface HomeScreenProps {
   streakDays: number;
   timeSinceRelapse: string | null;
   onLogRelapse: (lie?: string, change?: string) => void;
   onNavigateToTabs: () => void;
+  dayStatuses: Record<string, "good" | "slip">;
+  firstOpenedDate: number | null;
+  onSetDayStatus: (date: Date, status: "good" | "slip") => void;
+  relapseHistory: { timestamp: number; lie?: string; change?: string }[];
+  triggerHistory: {
+    timestamp: number;
+    triggers: string[];
+    actionCompleted: string;
+  }[];
+  onDeleteRelapse: (timestamp: number) => void;
+  onDeleteTrigger: (timestamp: number) => void;
 }
 
 export function HomeScreen({
@@ -20,11 +33,20 @@ export function HomeScreen({
   timeSinceRelapse,
   onLogRelapse,
   onNavigateToTabs,
+  dayStatuses,
+  firstOpenedDate,
+  onSetDayStatus,
+  relapseHistory,
+  triggerHistory,
+  onDeleteRelapse,
+  onDeleteTrigger,
 }: HomeScreenProps) {
   const [saying, setSaying] = useState("");
   const [showRelapseModal, setShowRelapseModal] = useState(false);
   const [showEmergencyVerse, setShowEmergencyVerse] = useState(false);
   const [buttonPressed, setButtonPressed] = useState(false);
+  const [showStreakCalendar, setShowStreakCalendar] = useState(false);
+  const [showReflections, setShowReflections] = useState(false);
 
   useEffect(() => {
     setSaying(getRandomSaying());
@@ -47,10 +69,15 @@ export function HomeScreen({
           animate={{ opacity: 1, y: 0 }}
           className="flex justify-between items-start"
         >
-          <div>
+          <button
+            type="button"
+            onClick={() => setShowStreakCalendar(true)}
+            className="text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 rounded-lg px-1 -ml-1"
+            aria-label="Open streak calendar"
+          >
             <p className="text-muted-foreground text-sm uppercase tracking-wider">Streak</p>
             <p className="text-4xl font-bold text-foreground">{streakDays} <span className="text-xl font-normal text-muted-foreground">days</span></p>
-          </div>
+          </button>
           <div className="text-right">
             <p className="text-muted-foreground text-sm uppercase tracking-wider">Last Relapse</p>
             <p className="text-lg font-medium text-foreground">
@@ -94,7 +121,7 @@ export function HomeScreen({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="mt-8"
+          className="mt-8 flex flex-col items-center gap-3"
         >
           <Button
             variant="outline"
@@ -104,6 +131,14 @@ export function HomeScreen({
           >
             <Zap className="w-4 h-4" />
             Emergency Verse
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setShowReflections(true)}
+            className="text-muted-foreground hover:text-foreground"
+          >
+            Reflections
           </Button>
         </motion.div>
       </main>
@@ -138,6 +173,23 @@ export function HomeScreen({
       <EmergencyVerse
         open={showEmergencyVerse}
         onClose={() => setShowEmergencyVerse(false)}
+      />
+
+      <StreakCalendarDialog
+        open={showStreakCalendar}
+        onOpenChange={setShowStreakCalendar}
+        dayStatuses={dayStatuses}
+        firstOpenedDate={firstOpenedDate}
+        onSetDayStatus={onSetDayStatus}
+      />
+
+      <ReflectionsDialog
+        open={showReflections}
+        onOpenChange={setShowReflections}
+        relapseHistory={relapseHistory}
+        triggerHistory={triggerHistory}
+        onDeleteRelapse={onDeleteRelapse}
+        onDeleteTrigger={onDeleteTrigger}
       />
     </div>
   );

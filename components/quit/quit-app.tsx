@@ -25,6 +25,9 @@ export function QuitApp() {
     logRelapse,
     logTrigger,
     togglePlayLater,
+    setDayStatus,
+    deleteRelapseEntry,
+    deleteTriggerEntry,
     getStreakDays,
     getTimeSinceRelapse,
   } = useQuitStorage();
@@ -111,6 +114,13 @@ export function QuitApp() {
               timeSinceRelapse={timeSinceRelapse}
               onLogRelapse={logRelapse}
               onNavigateToTabs={() => setView("tabs")}
+              dayStatuses={data.dayStatuses}
+              firstOpenedDate={data.firstOpenedDate}
+              onSetDayStatus={setDayStatus}
+              relapseHistory={data.relapseHistory}
+              triggerHistory={data.triggerHistory}
+              onDeleteRelapse={deleteRelapseEntry}
+              onDeleteTrigger={deleteTriggerEntry}
             />
           </motion.div>
         ) : (
